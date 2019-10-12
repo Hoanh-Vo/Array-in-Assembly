@@ -1,0 +1,168 @@
+     1                                  ;Author: Hoanh Vo
+     2                                  ;Author email: hvo123@csu.fullerton.edu
+     3                                  ;Assigment 4
+     4                                  ;Program name: Summation of Array
+     5                                  
+     6                                  ;Purpose: This program 
+     7                                  ;language: x86-64 assembly
+     8                                  
+     9                                  
+    10                                  
+    11                                  ;===== Begin code area ==============================================================================================================
+    12                                  
+    13                                  extern printf
+    14                                  extern getchar
+    15                                  extern clearerr
+    16                                  extern stdin			;extern the std input
+    17                                  global introduction
+    18                                  
+    19                                  segment .data
+    20                                  
+    21 00000000 205468652020583836-     	welcome db " The  X86-64 control module has begun executing.", 10,0
+    21 00000009 2D363420636F6E7472-
+    21 00000012 6F6C206D6F64756C65-
+    21 0000001B 206861732062656775-
+    21 00000024 6E2065786563757469-
+    21 0000002D 6E672E0A00         
+    22 00000032 41726520796F752072-     	c_ex_message  db "Are you ready (press 'c' for continue, 'x' for exit)?",0
+    22 0000003B 656164792028707265-
+    22 00000044 73732027632720666F-
+    22 0000004D 7220636F6E74696E75-
+    22 00000056 652C2027782720666F-
+    22 0000005F 722065786974293F00 
+    23 00000068 257300                  	stringformat db "%s",0
+    24 0000006B 626F64792070726F67-     input_prompt  db  "body program...............",0
+    24 00000074 72616D2E2E2E2E2E2E-
+    24 0000007D 2E2E2E2E2E2E2E2E2E-
+    24 00000086 00                 
+    25                                  	
+    26                                  
+    27                                  segment .bss  ; Reserved for uninitialized arrays
+    28 00000000 <res 00000320>          	aArray  resq 100 		;reserve an quard array of 100 elements 
+    29                                  
+    30                                  segment .text
+    31                                  
+    32                                  introduction:
+    33                                  
+    34                                  ;===== Backup all the GPRs ========================================================================================================
+    35 00000000 55                      push rbp                                                    ;Backup the base pointer
+    36 00000001 4889E5                  mov  rbp,rsp                                                ;Advance the base pointer to start of the current 
+    37 00000004 57                      push rdi                                                    ;Backup rdi
+    38 00000005 56                      push rsi                                                    ;Backup rsi
+    39 00000006 52                      push rdx                                                    ;Backup rdx
+    40 00000007 51                      push rcx                                                    ;Backup rcx
+    41 00000008 4150                    push r8                                                     ;Backup r8
+    42 0000000A 4151                    push r9                                                     ;Backup r9
+    43 0000000C 4152                    push r10                                                    ;Backup r10
+    44 0000000E 4153                    push r11                                                    ;Backup r11: printf often changes r11
+    45 00000010 4154                    push r12                                                    ;Backup r12
+    46 00000012 4155                    push r13                                                    ;Backup r13
+    47 00000014 4156                    push r14                                                    ;Backup r14
+    48 00000016 4157                    push r15                                                    ;Backup r15
+    49 00000018 53                      push rbx                                                    ;Backup rbx
+    50 00000019 9C                      pushf                                                       ;Backup rflags
+    51                                  ;Registers rax, rip, and rsp are usually not backed up.
+    52                                  
+    53                                  ;===== Output initial messages ====================================================================================================
+    54                                  
+    55 0000001A B800000000              	mov rax, 0
+    56 0000001F 48BF-                   	mov rdi, welcome
+    56 00000021 [0000000000000000] 
+    57 00000029 E8(00000000)            	call printf
+    58                                  
+    59                                  
+    60                                  
+    61                                  
+    62                                  	
+    63                                  ;==============================================================================================================
+    64                                  repeat_loop:
+    65                                  	
+    66 0000002E B800000000              	mov rax,0
+    67 00000033 488B3C25[00000000]      	mov rdi, [stdin]
+    68 0000003B E8(00000000)            	call clearerr
+    69                                  
+    70                                  ;Next, ask user if they are ready or not 
+    71 00000040 B800000000              	mov rax,0 	;no data will be printed
+    72 00000045 48BF-                   	mov rdi, stringformat		; "%s"
+    72 00000047 [6800000000000000] 
+    73 0000004F 48BE-                   	mov rsi, c_ex_message			; y or n question
+    73 00000051 [3200000000000000] 
+    74 00000059 E8(00000000)            	call printf    ;call a library function to make the output
+    75                                  
+    76                                  
+    77                                  
+    78                                  ;Next, get single char input from user
+    79                                  	
+    80 0000005E B800000000              	mov rax, 0
+    81 00000063 E8(00000000)            	call getchar
+    82 00000068 4989C7                  	mov r15,rax
+    83 0000006B E8(00000000)            	call getchar		;to get rid of the enter key
+    84                                  
+    85                                  ;Next,comparing with x , if user put x exit the program
+    86 00000070 4983FF78                	cmp r15, 120		; x == 120 in dec, 
+    87 00000074 7426                    	je end_Program
+    88                                  
+    89                                  
+    90                                  
+    91                                  ;----------------------------------------------------------------
+    92                                  ;Next,comparing with c , if user put c continue
+    93 00000076 4983FF63                	cmp r15, 99		; c == 99 in dec, 
+    94 0000007A 7402                    	je next
+    95                                  
+    96                                  ;Otherwise ask again the question if they are ready or not 
+    97 0000007C EBB0                    	jmp repeat_loop
+    98                                  	
+    99                                  
+   100                                  next:
+   101                                  
+   102                                  
+   103                                  
+   104                                  
+   105                                  
+   106                                  
+   107                                  ;Next,testing block
+   108                                  	
+   109 0000007E B800000000              	mov rax, 0			;no data will  be printed
+   110 00000083 48BF-                   	mov rdi, stringformat		; "%s"
+   110 00000085 [6800000000000000] 
+   111 0000008D 48BE-                   	mov rsi, input_prompt	; "testing message "
+   111 0000008F [6B00000000000000] 
+   112 00000097 E8(00000000)            	call printf			;call a library function to make the output
+   113                                  
+   114                                  
+   115                                  
+   116                                  
+   117                                  
+   118                                  
+   119                                  
+   120                                  
+   121                                  end_Program:
+   122                                  
+   123                                  
+   124                                  
+   125                                  
+   126                                  
+   127                                  
+   128                                  
+   129                                  
+   130                                  
+   131                                  ;===== Restore original values to integer registers ===============================================================================
+   132 0000009C 9D                      popf                                                        ;Restore rflags
+   133 0000009D 5B                      pop rbx                                                     ;Restore rbx
+   134 0000009E 415F                    pop r15                                                     ;Restore r15
+   135 000000A0 415E                    pop r14                                                     ;Restore r14
+   136 000000A2 415D                    pop r13                                                     ;Restore r13
+   137 000000A4 415C                    pop r12                                                     ;Restore r12
+   138 000000A6 415B                    pop r11                                                     ;Restore r11
+   139 000000A8 415A                    pop r10                                                     ;Restore r10
+   140 000000AA 4159                    pop r9                                                      ;Restore r9
+   141 000000AC 4158                    pop r8                                                      ;Restore r8
+   142 000000AE 59                      pop rcx                                                     ;Restore rcx
+   143 000000AF 5A                      pop rdx                                                     ;Restore rdx
+   144 000000B0 5E                      pop rsi                                                     ;Restore rsi
+   145 000000B1 5F                      pop rdi                                                     ;Restore rdi
+   146 000000B2 5D                      pop rbp                                                     ;Restore rbp
+   147                                  
+   148 000000B3 C3                      ret
+   149                                  
+   150                                  

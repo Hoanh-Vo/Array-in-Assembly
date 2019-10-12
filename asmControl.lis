@@ -1,0 +1,271 @@
+     1                                  ;Author: Hoanh Vo
+     2                                  ;Author email: hvo123@csu.fullerton.edu
+     3                                  ;Assigment 4
+     4                                  ;Program name: Summation of Array
+     5                                  
+     6                                  ;Purpose: This program is control module
+     7                                  ;language: x86-64 assembly
+     8                                  
+     9                                  
+    10                                  
+    11                                  ;===== Begin code area ==============================================================================================================
+    12                                  
+    13                                  extern printf
+    14                                  extern getchar
+    15                                  extern clearerr
+    16                                  extern stdin			;extern the std input
+    17                                  
+    18                                  extern getInput		; function in Fill module
+    19                                  extern show_array	; function in Display module
+    20                                  extern summation	; function in Sum module
+    21                                  
+    22                                  global introduction
+    23                                  
+    24                                  segment .data
+    25                                  
+    26 00000000 205468652020583836-     	welcome db " The  X86-64 -control module - has begun executing.", 10,0
+    26 00000009 2D3634202D636F6E74-
+    26 00000012 726F6C206D6F64756C-
+    26 0000001B 65202D206861732062-
+    26 00000024 6567756E2065786563-
+    26 0000002D 7574696E672E0A00   
+    27 00000035 41726520796F752072-     	c_ex_message  db "Are you ready (press 'c' for continue, 'x' for exit)?",0
+    27 0000003E 656164792028707265-
+    27 00000047 73732027632720666F-
+    27 00000050 7220636F6E74696E75-
+    27 00000059 652C2027782720666F-
+    27 00000062 722065786974293F00 
+    28                                  	
+    29 0000006B 257300                  	stringformat db "%s",0
+    30 0000006E 200A00                  	nextLine db " ",10,0
+    31                                  	
+    32 00000071 417265207468657365-     	y_or_no_question  db  "Are these values correct (y or n)?",0
+    32 0000007A 2076616C7565732063-
+    32 00000083 6F7272656374202879-
+    32 0000008C 206F72206E293F00   
+    33 00000094 54686520636F6E7472-     	output_sum_message  db  "The control module has recieved the sum = %ld (in decimal) from the calculation.",10,0
+    33 0000009D 6F6C206D6F64756C65-
+    33 000000A6 206861732072656369-
+    33 000000AF 657665642074686520-
+    33 000000B8 73756D203D20256C64-
+    33 000000C1 2028696E2064656369-
+    33 000000CA 6D616C292066726F6D-
+    33 000000D3 207468652063616C63-
+    33 000000DC 756C6174696F6E2E0A-
+    33 000000E5 00                 
+    34                                  segment .bss  ; Reserved for uninitialized arrays
+    35 00000000 <res 00000320>          	aArray  resq 100		;reserve an quard array of 100 elements 
+    36                                  				
+    37                                  segment .text
+    38                                  
+    39                                  introduction:
+    40                                  
+    41                                  ;===== Backup all the GPRs ========================================================================================================
+    42 00000000 55                      push rbp                                                    ;Backup the base pointer
+    43 00000001 4889E5                  mov  rbp,rsp                                                ;Advance the base pointer to start of the current 
+    44 00000004 57                      push rdi                                                    ;Backup rdi
+    45 00000005 56                      push rsi                                                    ;Backup rsi
+    46 00000006 52                      push rdx                                                    ;Backup rdx
+    47 00000007 51                      push rcx                                                    ;Backup rcx
+    48 00000008 4150                    push r8                                                     ;Backup r8
+    49 0000000A 4151                    push r9                                                     ;Backup r9
+    50 0000000C 4152                    push r10                                                    ;Backup r10
+    51 0000000E 4153                    push r11                                                    ;Backup r11: printf often changes r11
+    52 00000010 4154                    push r12                                                    ;Backup r12
+    53 00000012 4155                    push r13                                                    ;Backup r13
+    54 00000014 4156                    push r14                                                    ;Backup r14
+    55 00000016 4157                    push r15                                                    ;Backup r15
+    56 00000018 53                      push rbx                                                    ;Backup rbx
+    57 00000019 9C                      pushf                                                       ;Backup rflags
+    58                                  ;Registers rax, rip, and rsp are usually not backed up.
+    59                                  
+    60                                  ;===== Output initial messages ====================================================================================================
+    61                                  
+    62 0000001A B800000000              	mov rax, 0
+    63 0000001F 48BF-                   	mov rdi, welcome
+    63 00000021 [0000000000000000] 
+    64 00000029 E8(00000000)            	call printf
+    65                                  
+    66                                  
+    67                                  
+    68                                  	
+    69                                  ;==============================================================================================================
+    70                                  
+    71                                  ;repeat_loop:
+    72                                  	
+    73                                  	
+    74                                  	
+    75                                  
+    76                                  ;Next, ask user if they are ready or not 
+    77 0000002E B800000000              	mov rax,0 	;no data will be printed
+    78 00000033 48BF-                   	mov rdi, stringformat		; "%s"
+    78 00000035 [6B00000000000000] 
+    79 0000003D 48BE-                   	mov rsi, c_ex_message			; countinue or exist question?
+    79 0000003F [3500000000000000] 
+    80 00000047 E8(00000000)            	call printf    ;call a library function to make the output
+    81                                  
+    82                                  ;==============================================================================================================
+    83 0000004C B800000000              	mov rax,0
+    84 00000051 488B3C25[00000000]      	mov rdi, [stdin]
+    85 00000059 E8(00000000)            	call clearerr		;clear the stdin
+    86                                  
+    87                                  ;==============================================================================================================
+    88                                  
+    89                                  
+    90                                  
+    91                                  
+    92                                  ;Next, get single char input from user
+    93                                  	
+    94 0000005E B800000000              	mov rax, 0
+    95 00000063 E8(00000000)            	call getchar
+    96 00000068 4989C7                  	mov r15,rax
+    97 0000006B E8(00000000)            	call getchar		;to get rid of the enter key
+    98                                  
+    99                                  ;Next,comparing with char x , if user put char x jump to the end of the program
+   100 00000070 4983FF78                	cmp r15, 120		; x == 120 in dec, 
+   101 00000074 0F84F6000000            	je end_Program
+   102                                  
+   103                                  
+   104                                  
+   105                                  ;----------------------------------------------------------------
+   106                                  ;Next,comparing with char c , if user put char c continue
+   107 0000007A 4983FF63                	cmp r15, 99		; c == 99 in dec, 
+   108 0000007E 7400                    	je next
+   109                                  
+   110                                  ;Otherwise ask again the question if they are ready or not 
+   111                                  ;	jmp repeat_loop
+   112                                  	
+   113                                  
+   114                                  next:
+   115                                  
+   116                                  
+   117                                  
+   118                                  
+   119                                  ;==============================================================================================================
+   120                                  
+   121                                  another_loop:
+   122                                  ;==============================================================================================================
+   123 00000080 B800000000              	mov rax,0
+   124 00000085 488B3C25[00000000]      	mov rdi, [stdin]
+   125 0000008D E8(00000000)            	call clearerr		;clear the stdin
+   126                                  
+   127                                  ;==============================================================================================================
+   128                                  ;calling funtion getInput in Fill module to get input for the array
+   129                                  ;this function will the return the size of the array back to control module 
+   130 00000092 B800000000              	mov rax, 0
+   131 00000097 BE64000000              	mov rsi, 100		;2nd parameter: size of array
+   132 0000009C 48BF-                   	mov rdi, aArray		;1st parameter: address of array
+   132 0000009E [0000000000000000] 
+   133 000000A6 E8(00000000)            	call getInput
+   134                                  
+   135                                  ;=======save the real size of array to r12===================and  print next line===========================================================================
+   136 000000AB 4989C4                  	mov r12,rax	; r12 will hold the realsize of the array
+   137                                  
+   138                                  ;NExt, print out the nextline
+   139 000000AE B800000000              	mov rax, 0
+   140 000000B3 48BF-                   	mov rdi, stringformat
+   140 000000B5 [6B00000000000000] 
+   141 000000BD 48BE-                   	mov rsi, nextLine
+   141 000000BF [6E00000000000000] 
+   142 000000C7 E8(00000000)            	call printf
+   143                                  ;==============================================================================================================
+   144                                  	
+   145                                  ;calling funtion show_array in Dislay module to print out the array 
+   146 000000CC B800000000              	mov rax, 0
+   147 000000D1 4C89E6                  	mov rsi, r12		;2nd parameter: size of array
+   148 000000D4 48BF-                   	mov rdi, aArray		;1st parameter: address of array
+   148 000000D6 [0000000000000000] 
+   149 000000DE E8(00000000)            	call show_array
+   150                                  
+   151                                  
+   152                                  ;==============================================================================================================
+   153                                  ;asking user if the array is correct
+   154                                  
+   155                                  	
+   156                                  ;----------------------------------------------------------------	
+   157 000000E3 B800000000              	mov rax,0 	;no data will be printed
+   158 000000E8 48BF-                   	mov rdi, stringformat		; "%s"
+   158 000000EA [6B00000000000000] 
+   159 000000F2 48BE-                   	mov rsi, y_or_no_question			; "are these values correct (y or n)?"
+   159 000000F4 [7100000000000000] 
+   160 000000FC E8(00000000)            	call printf    ;call a library function to make the output
+   161                                  	
+   162                                  ;==============================================================================================================
+   163 00000101 B800000000              	mov rax,0
+   164 00000106 488B3C25[00000000]      	mov rdi, [stdin]
+   165 0000010E E8(00000000)            	call clearerr		;clear the stdin
+   166                                  	
+   167                                  ;==============================================================================================================	
+   168                                  	;Next, get single char input from user
+   169                                  	
+   170 00000113 B800000000              	mov rax, 0
+   171 00000118 E8(00000000)            	call getchar
+   172 0000011D 4989C6                  	mov r14,rax		
+   173                                  
+   174                                  
+   175                                  
+   176 00000120 E8(00000000)            	call getchar		;to get rid of the enter key
+   177                                  
+   178                                  ;Next,comparing with char y , if user put any char other than y jump the another_loop
+   179                                  ;otherwise input == y continue
+   180                                  	
+   181                                  			; y == 121 in dec, n == 110
+   182                                  			
+   183                                  	
+   184                                  	
+   185 00000125 4983FE79                	cmp r14, 121
+   186 00000129 0F8551FFFFFF            	jne another_loop
+   187                                  ;==============================================================================================================
+   188                                  ;==============================================================================================================
+   189 0000012F B800000000              	mov rax,0
+   190 00000134 488B3C25[00000000]      	mov rdi, [stdin]
+   191 0000013C E8(00000000)            	call clearerr		;clear the stdin
+   192                                  	
+   193                                  ;=====================================================================================
+   194                                  ;calling the sumation function in Sum module	
+   195                                  	
+   196                                  	
+   197 00000141 B800000000              	mov rax, 0
+   198 00000146 4C89E6                  	mov rsi, r12		;2nd parameter: size of array (
+   199 00000149 48BF-                   	mov rdi, aArray		;1st parameter: address of array
+   199 0000014B [0000000000000000] 
+   200 00000153 E8(00000000)            	call summation
+   201                                  	
+   202                                  	
+   203                                  	
+   204                                  	
+   205                                  ;=================show the Sum to the screen=============================================================================================
+   206 00000158 4989C5                  	mov r13,rax	;make a coppy of the sum to the r13 before calling printf 
+   207                                  	
+   208 0000015B 4889C6                  	mov rsi, rax
+   209 0000015E 48BF-                   	mov rdi, output_sum_message
+   209 00000160 [9400000000000000] 
+   210 00000168 E8(00000000)            	call printf
+   211                                  
+   212                                  ;=================passing the sum back to the main() driver=============================================================================================
+   213                                  
+   214 0000016D 4C89E8                  	mov rax, r13
+   215                                  	
+   216                                  
+   217                                  end_Program:
+   218                                  
+   219                                  ;===== Restore original values to integer registers ===============================================================================
+   220 00000170 9D                      popf                                                        ;Restore rflags
+   221 00000171 5B                      pop rbx                                                     ;Restore rbx
+   222 00000172 415F                    pop r15                                                     ;Restore r15
+   223 00000174 415E                    pop r14                                                     ;Restore r14
+   224 00000176 415D                    pop r13                                                     ;Restore r13
+   225 00000178 415C                    pop r12                                                     ;Restore r12
+   226 0000017A 415B                    pop r11                                                     ;Restore r11
+   227 0000017C 415A                    pop r10                                                     ;Restore r10
+   228 0000017E 4159                    pop r9                                                      ;Restore r9
+   229 00000180 4158                    pop r8                                                      ;Restore r8
+   230 00000182 59                      pop rcx                                                     ;Restore rcx
+   231 00000183 5A                      pop rdx                                                     ;Restore rdx
+   232 00000184 5E                      pop rsi                                                     ;Restore rsi
+   233 00000185 5F                      pop rdi                                                     ;Restore rdi
+   234 00000186 5D                      pop rbp                                                     ;Restore rbp
+   235                                  
+   236 00000187 C3                      ret
+   237                                  
+   238                                  
